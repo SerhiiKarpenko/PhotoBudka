@@ -6,58 +6,45 @@ public class CameraControls : MonoBehaviour
 {
 	[SerializeField] private Camera mainCamera;
 	[SerializeField] private GameObject target;
-	CAMERA_MOVING_STATES CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.none;
+	CAMERA_MOVING_STATES camera_moving_state = CAMERA_MOVING_STATES.none;
 
 	private void Update()
 	{
+
 		mainCamera.transform.LookAt(target.transform);
-
-		if (CAMERA_MOVING_STATE == CAMERA_MOVING_STATES.right)
-			OnMoveRight();
-
-		if (CAMERA_MOVING_STATE == CAMERA_MOVING_STATES.left)
-			OnMoveLeft();
-
-
-		if (CAMERA_MOVING_STATE == CAMERA_MOVING_STATES.up)
-			OnMoveUp();
-
-		if (CAMERA_MOVING_STATE == CAMERA_MOVING_STATES.down)
-			OnMoveDown();
-
-
-
-		if (CAMERA_MOVING_STATE == CAMERA_MOVING_STATES.forward)
-			OnMoveForward();
-
-		if (CAMERA_MOVING_STATE == CAMERA_MOVING_STATES.back)
-			OnMoveBack();
+        switch (camera_moving_state)
+        {
+			case CAMERA_MOVING_STATES.right:
+				OnMoveRight();
+				break;
+			case CAMERA_MOVING_STATES.left:
+				OnMoveLeft();
+				break;
+			case CAMERA_MOVING_STATES.up:
+				OnMoveUp();
+				break;
+			case CAMERA_MOVING_STATES.down:
+				OnMoveDown();
+				break;
+			case CAMERA_MOVING_STATES.forward:
+				OnMoveForward();
+				break;
+			case CAMERA_MOVING_STATES.back:
+				OnMoveBack();
+				break;
+			default:
+				camera_moving_state = CAMERA_MOVING_STATES.none;
+				break;
+        }
 	}
 
-	public void OnRightDown() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.right; } 
-	public void OnRightUp() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.none; }
-
-	public void OnLeftDown() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.left; }
-	public void OnLeftUp() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.none; }
-
-
-
-	public void OnUpDown() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.up;  }
-	public void OnUpisUp() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.none; }
-
-	public void OnDownisDown() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.down; }
-	public void OnDownisUp() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.none; }
-
-
-
-	public void OnForwardDown() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.forward; }
-	public void OnForwardUp() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.none; }
-
-	public void OnBackDown() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.back; }
-	public void OnBackUp() { CAMERA_MOVING_STATE = CAMERA_MOVING_STATES.none; }
-
-
-
+	public void OnRightDown() { camera_moving_state = CAMERA_MOVING_STATES.right; } 
+	public void OnLeftDown() { camera_moving_state = CAMERA_MOVING_STATES.left; }
+	public void OnUpDown() { camera_moving_state = CAMERA_MOVING_STATES.up; }
+	public void OnDownisDown() { camera_moving_state = CAMERA_MOVING_STATES.down; }
+	public void OnForwardDown() { camera_moving_state = CAMERA_MOVING_STATES.forward; }
+	public void OnBackDown() { camera_moving_state = CAMERA_MOVING_STATES.back; }
+	public void OnCameraPointersUp() { camera_moving_state = CAMERA_MOVING_STATES.none; }
 
 
 
@@ -66,7 +53,7 @@ public class CameraControls : MonoBehaviour
 	private void OnMoveUp()
 	{
 		//mainCamera.transform.Translate(Vector3.up, Space.Self);
-		mainCamera.transform.RotateAround(transform.position, Vector3.right, 1);
+		mainCamera.transform.RotateAround(target.transform.position, Vector3.right, 1);
 	}
 
 	private void OnMoveDown()
